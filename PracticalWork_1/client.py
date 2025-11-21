@@ -16,7 +16,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     # Send filename to server
     s.sendall(filename.encode('utf-8'))
     
-    # Receive file size or error
+    # Receive file size/error
     response = s.recv(1024).decode('utf-8')
     if response == 'File not found':
         print("File not found on server")
