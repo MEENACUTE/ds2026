@@ -1,11 +1,14 @@
 \documentclass[12pt]{article}
-\usepackage[utf8]{vietnam}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 \usepackage{graphicx}
+\usepackage{svg} % Add SVG
 \usepackage{listings}
 \usepackage{caption}
 \usepackage{float}
 \usepackage{xcolor}
 
+% Listing for Python
 \lstset{
     language=Python,
     basicstyle=\ttfamily\small,
@@ -29,39 +32,39 @@
 
 \title{Practical 1: TCP File Transfer\\A Simple Client-Server Implementation}
 \author{Nguyen Viet Khoa - 23BI14223}
-\date{November 21, 2025}
+\date{\today}
 
 \begin{document}
 
 \maketitle
 
 \section{Introduction}
-This report presents a complete implementation of file transfer over TCP/IP using the command-line interface (CLI) and Python's built-in \texttt{socket} library. The system allows a client to request and download any file from the server reliably.
+This report presents a complete implementation of file transfer over TCP/IP using command-line interface (CLI) and Python's built-in \texttt{socket} library. The system allows a client to request and download any file from the server reliably.
 
 \section{Protocol Design}
 The protocol is simple, reliable, and follows a request-response pattern over TCP:
 
 \begin{itemize}
-    \item The client connects to the server at \texttt{127.0.0.1:65432}
-    \item The client sends the requested filename (UTF-8 string)
+    \item Client connects to server at \texttt{127.0.0.1:65432}
+    \item Client sends the requested filename (UTF-8 string)
     \item Server checks if file exists:
     \begin{itemize}
         \item If not → sends \texttt{"File not found"}
-        \item If yes → sends file size (as string), then file content is in 4096-byte chunks
+        \item If yes → sends file size (as string), then file content in 4096-byte chunks
     \end{itemize}
-    \item The client receives and writes data to a local file
-    \item The connection closes automatically after transfer (TCP EOF)
+    \item Client receives and writes data to local file
+    \item Connection closes automatically after transfer (TCP EOF)
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{protocol.png}
+    \includesvg[width=0.95\textwidth]{PracticalWork_1/protocol.svg}
     \caption{Sequence Diagram - TCP File Transfer Protocol}
     \label{fig:protocol}
 \end{figure}
 
 \section{System Organization}
-The system follows a classic client-server architecture:
+The system follows classic client-server architecture:
 
 \begin{enumerate}
     \item \textbf{Server}: Passive - listens on port 65432, accepts one connection, serves file
@@ -72,13 +75,13 @@ Both programs run in the same folder for testing. All files (\texttt{server.py},
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{system.png}
+    \includesvg[width=0.8\textwidth]{PracticalWork_1/system.svg}
     \caption{Component Diagram - Client-Server System Organization}
     \label{fig:system}
 \end{figure}
 
 \section{File Transfer Implementation}
-The implementation uses only standard Python libraries. Run server first, then client in a separate terminal.
+Implementation uses only standard Python libraries. Run server first, then client in a separate terminal.
 
 \subsection{Server-side Implementation}
 \begin{lstlisting}[caption=server.py - Corrected and Fully Working Version]
@@ -156,7 +159,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 \begin{itemize}
     \item \textbf{Server}:
     \begin{itemize}
-        \item Creates and binds the socket to port 65432
+        \item Creates and binds socket to port 65432
         \item Listens and accepts client connection
         \item Receives filename request
         \item Sends file size + content in 4KB chunks
@@ -166,9 +169,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     \item \textbf{Client}:
     \begin{itemize}
         \item Connects to server
-        \item Sends the desired filename
+        \item Sends desired filename
         \item Receives file size and data
-        \item Writes to a local file with progress tracking
+        \item Writes to local file with progress tracking
         \item Supports command-line arguments
     \end{itemize}
 \end{itemize}
