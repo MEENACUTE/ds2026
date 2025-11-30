@@ -11,4 +11,4 @@ Student Info
 
 * Student Name: Nguyen Viet Khoa
 * Student ID: 23BI14223
-* Student Group ID: Not-for-now
+* Student Group ID: 1
