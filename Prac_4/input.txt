@@ -1,0 +1,3 @@
+Hello world hello again world.
+This is a test for MapReduce word count.
+Repeat words: hello hello.
